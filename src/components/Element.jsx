@@ -1,5 +1,4 @@
-// components/Element.jsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 const Element = ({ element, isSelected, onClick, onUpdate, onDelete }) => {
@@ -9,7 +8,7 @@ const Element = ({ element, isSelected, onClick, onUpdate, onDelete }) => {
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'element',
-    item: { id: element.id },
+    item: { id: element.id, type: element.type },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -19,12 +18,25 @@ const Element = ({ element, isSelected, onClick, onUpdate, onDelete }) => {
     accept: 'element',
     hover: (draggedItem) => {
       if (draggedItem.id !== element.id) {
-        // Swap elements logic can be added here
+        // Optional: Add swap logic here if needed
       }
     },
-    drop: (draggedItem) => {
-      if (draggedItem.id !== element.id) {
-        // Handle element repositioning
+    drop: (draggedItem, monitor) => {
+      if (!monitor.didDrop()) {
+        const offset = monitor.getClientOffset();
+        if (offset && elementRef.current) {
+          const rect = elementRef.current.getBoundingClientRect();
+          const x = offset.x - rect.left;
+          const y = offset.y - rect.top;
+          
+          onUpdate(draggedItem.id, {
+            style: {
+              ...element.style,
+              left: `${parseInt(element.style.left) + x - rect.width/2}px`,
+              top: `${parseInt(element.style.top) + y - rect.height/2}px`
+            }
+          });
+        }
       }
     },
   }));
@@ -43,7 +55,7 @@ const Element = ({ element, isSelected, onClick, onUpdate, onDelete }) => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && element.type !== 'paragraph') {
       handleBlur();
     }
   };
@@ -68,12 +80,25 @@ const Element = ({ element, isSelected, onClick, onUpdate, onDelete }) => {
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoFocus
+            className="element-input"
           />
         ) : (
           <span>{content}</span>
         );
       case 'button':
-        return <button className={element.props.className}>{content}</button>;
+        return isEditing ? (
+          <input
+            type="text"
+            value={content}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            autoFocus
+            className="element-input"
+          />
+        ) : (
+          <button className={element.props.className}>{content}</button>
+        );
       case 'heading':
         const HeadingTag = `h${element.props.level}`;
         return isEditing ? (
@@ -84,6 +109,7 @@ const Element = ({ element, isSelected, onClick, onUpdate, onDelete }) => {
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoFocus
+            className="element-input"
           />
         ) : (
           <HeadingTag>{content}</HeadingTag>
@@ -95,12 +121,13 @@ const Element = ({ element, isSelected, onClick, onUpdate, onDelete }) => {
             onChange={handleChange}
             onBlur={handleBlur}
             autoFocus
+            className="element-textarea"
           />
         ) : (
           <p>{content}</p>
         );
       case 'image':
-        return <img src={content} alt="User uploaded" />;
+        return <img src={content} alt="User uploaded" style={{ maxWidth: '100%' }} />;
       default:
         return <div>{content}</div>;
     }
