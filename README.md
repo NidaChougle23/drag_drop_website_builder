@@ -45,7 +45,7 @@ Installation
 Clone the repository:
 
 bash
-git clone https://github.com/your-username/website-builder.git
+git clone https://github.com/NidaChougle23/drag_drop_website_builder.git
 cd website-builder
 Install dependencies:
 
