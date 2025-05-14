@@ -1,12 +1,83 @@
-# React + Vite
+Website Builder - Drag & Drop Editor
+🚀 A React-based drag-and-drop website builder that allows users to create simple web pages by dragging elements onto a canvas and exporting them as HTML.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features
+✨ Drag-and-Drop Interface
 
-Currently, two official plugins are available:
+Sidebar with elements (Text, Buttons, Headings, etc.)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Canvas to arrange elements visually
 
-## Expanding the ESLint configuration
+🛠 Element Controls
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Add elements by dragging from the sidebar
+
+Edit content by double-clicking
+
+Delete elements with the delete button
+
+Reposition elements by dragging
+
+📤 Export Functionality
+
+Generates a clean HTML file
+
+Preserves styling and layout
+
+🎨 Visual Polish
+
+Clean, modern UI
+
+Clear selection indicators
+
+Responsive design
+
+Technologies Used
+React (Frontend framework)
+
+react-dnd (Drag-and-drop functionality)
+
+Vite (Build tool)
+
+CSS (Styling)
+
+Installation
+Clone the repository:
+
+bash
+git clone https://github.com/your-username/website-builder.git
+cd website-builder
+Install dependencies:
+
+bash
+npm install
+Run the development server:
+
+bash
+npm run dev
+Open in your browser:
+
+http://localhost:5173
+Usage
+Drag elements from the sidebar onto the canvas.
+
+Click to select an element (border highlights in blue).
+
+Double-click to edit text content.
+
+Delete selected elements with the × button.
+
+Export your design as HTML using the "Export HTML" button.
+
+Future Improvements
+📌 Planned Features:
+
+Undo/Redo functionality
+
+More element types (images, forms, videos)
+
+Style customization panel
+
+Responsive preview modes (Desktop/Tablet/Mobile)
+
+Reposition elements by dragging
